@@ -1,1 +1,4 @@
-#this is the file that will explain what this backend is for and what it does
+# Bread Avenue Backend
+
+Backend service for Bread Avenue.
+Built with FastAPI, SQLAlchemy, and PostgreSQL (planned).
