@@ -1,3 +1,8 @@
-sqlalchemy
-pydantic
-fastapi
+bcrypt==5.0.0
+click==8.3.1
+colorama==0.4.6
+h11==0.16.0
+passlib==1.7.4
+python-dotenv==1.2.1
+python-multipart==0.0.21
+uvicorn==0.40.0
