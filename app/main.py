@@ -1,16 +1,19 @@
  # app/main.py
 from fastapi import FastAPI
-from app.routes import user, product
-from app.models.user import User
 from app.database import engine, Base
+
+from app.user.routes import router as router
+from app.product.routes import router as product_router
+#from app.order.routes import router as order_router
 
 #create database tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(title="Bread Avenue API", version="1.0.0")
 
-app.include_router(user.router)
-app.include_router(product.router)
+app.include_router(router, tags=["users"])
+app.include_router(product_router, tags=["products"])
+#app.include_router(order_router, prefix="/orders", tags=["orders"])   
 
 @app.get("/")
 def read_root():

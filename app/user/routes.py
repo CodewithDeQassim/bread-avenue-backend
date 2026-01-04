@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from app.models.user import User
-from app.schemas.user import UserCreate, UserResponses
-from app.database import get_db
+from .models import User
+from .schemas import UserCreate, UserResponses, UserUpdate
+from ..database import get_db
 from passlib.context import CryptContext
 
 
 router = APIRouter(
     prefix="/users",
-    tags=["Users"]
+    tags=["users"]
 )
 
 #password hashing
@@ -61,14 +61,19 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
     return user
 #update user
 @router.put("/{user_id}", response_model=UserResponses)
-def update_user(user_id: int, user: UserCreate, db: Session = Depends(get_db)):
+def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.id == user_id).first()
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
+    
+    if user.username is not None:
+        db_user.username = user.username
 
-    db_user.username = user.username
-    db_user.email = user.email
-    db_user.hashed_password = hash_password(user.password)
+    if user.email is not None:
+        db_user.email = user.email
+
+    if user.password is not None:    
+        db_user.hashed_password = hash_password(user.password)
 
     db.commit()
     db.refresh(db_user)
