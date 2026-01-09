@@ -4,6 +4,7 @@ from .models import User
 from .schemas import UserCreate, UserResponses, UserUpdate
 from ..database import get_db
 from passlib.context import CryptContext
+from app.auth.dependencies import get_current_user
 
 
 router = APIRouter(
@@ -18,7 +19,6 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 #Utility function to hash passwords
 def hash_password(password:str):
     return pwd_context.hash(password)
-
 
 # Create a new user (Registration)
 @router.post("/", response_model=UserResponses)

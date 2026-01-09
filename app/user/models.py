@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from ..database import Base
+from sqlalchemy.orm import relationship
 
 class User(Base):
     __tablename__= "users" #This is the name of the actual table in the database
@@ -9,3 +10,5 @@ class User(Base):
     email = Column(String, unique=True, index=True, nullable=False) # Unique email
     full_name = Column(String, nullable=True) # Optional fullname
     hashed_password = Column(String, nullable=False) # password (hashed)
+
+    orders = relationship("Order", back_populates="user", cascade="all, delete")

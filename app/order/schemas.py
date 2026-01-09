@@ -1,41 +1,31 @@
 # app/order/schemas.py
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel 
+from typing import List
 
-class CustomerBase(BaseModel):
-    name: str
-    email: EmailStr
-    phone: str | None = None
-    address: str | None = None
+# Schemas for Order Items
+class OrderItemCreate(BaseModel):
+    product_id: int
+    quantity: int
+    
 
-class CustomerCreate(CustomerBase):
-    pass
-
-class CustomerUpdate(BaseModel):
-    email: EmailStr | None = None
-    phone: str | None = None
-    address: str | None = None
-
-class CustomerOut(CustomerBase):
-    id: int
+class OrderItemOut(BaseModel):
+    product_id: int
+    quantity: int
+    price: float
 
     class Config:
         from_attributes = True
 
-class OrderItemBase(BaseModel):
-    order_id: int
-    product_id: int
-    quantity: float
-    price: float
 
-class OrderItemCreate(OrderItemBase):
-    pass
+# Schemas for Orders
+class OrderCreate(BaseModel):
+    items: List[OrderItemCreate]
 
-class OrderItemUpdate(BaseModel):
-    quantity: float | None = None
-    price: float | None = None
-
-class OrderItemOut(OrderItemBase):
+class OrderOut(BaseModel):
     id: int
+    status: str
+    total_amount: float
+    items: List[OrderItemOut]
 
     class Config:
         from_attributes = True
