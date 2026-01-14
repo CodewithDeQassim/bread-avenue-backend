@@ -4,7 +4,7 @@ from .models import User
 from .schemas import UserCreate, UserResponses, UserUpdate
 from ..database import get_db
 from passlib.context import CryptContext
-from app.auth.dependencies import get_current_user
+from app.auth.jwt import get_current_user
 
 
 router = APIRouter(

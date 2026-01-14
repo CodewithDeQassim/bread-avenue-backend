@@ -20,3 +20,10 @@ class UserResponses(BaseModel):
 
     class Config:
         from_attributes =True
+
+# Schema for outputting user details without sensitive information
+class UserOut(BaseModel):
+    id: int
+    email: str
+    username: str
+    full_name: Optional[str] = None
